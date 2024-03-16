@@ -17,4 +17,8 @@
     <ProjectReference Include="..\..\commons\hackatonposfiap.domain\hackatonposfiap.domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Resources\Arquitetura\" />
+  </ItemGroup>
+
 </Project>
