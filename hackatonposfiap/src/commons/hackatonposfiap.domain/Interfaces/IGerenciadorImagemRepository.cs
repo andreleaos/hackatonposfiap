@@ -2,7 +2,7 @@
 
 namespace hackatonposfiap.domain.Interfaces;
 
-public interface GerenciadorImagemRepository : IBaseRepoService<GerenciadorImagemItem, int>
+public interface IGerenciadorImagemRepository : IBaseRepoService<GerenciadorImagemItem, int>
 {
 
 }

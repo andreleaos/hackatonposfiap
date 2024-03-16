@@ -14,5 +14,11 @@ namespace hackatonposfiap.web.Controllers
         {
             return View();
         }
+
+        public IActionResult ListarVideos()
+        {
+            return View();
+        }
+
     }
 }

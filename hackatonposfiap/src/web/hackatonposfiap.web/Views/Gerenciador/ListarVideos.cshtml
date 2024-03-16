@@ -1,0 +1,42 @@
+﻿@model IEnumerable<hackatonposfiap.domain.Dtos.GerenciadorImagemDto>
+
+<h2>Listar Videos e Imagens</h2>
+
+@* <head>
+    <style type="text/css">
+        #container {
+            margin-top: 45px !important;
+        }
+    </style>
+
+</head> *@
+
+<div class="container">
+    <table class="table" class="grid-container">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ArquivoZip)
+                </th>
+                <th>Detalhes</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ArquivoZip)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Detalhes", "Details", new {  id = item.Id  })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <a asp-action="Index">Voltar</a>
+</div>
