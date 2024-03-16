@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS Video (
     CaminhoArquivo VARCHAR(255) NOT NULL,
     NomeArquivo VARCHAR(100) NOT NULL,
     Intervalo INT NOT NULL,
-    DtCriacao DateTime NOT NULL
+    DtCriacao DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS Imagem (
@@ -14,6 +14,6 @@ CREATE TABLE IF NOT EXISTS Imagem (
     IdVideo INT NOT NULL,
     CaminhoArquivo VARCHAR(255) NOT NULL,
     NomeArquivo VARCHAR(100) NOT NULL,
-    DtCriacao DateTime NOT NULL,
+    DtCriacao DATETIME DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT FK_Imagem_Video FOREIGN KEY (IdVideo) REFERENCES Video(Id)
 ) ENGINE=InnoDB;
