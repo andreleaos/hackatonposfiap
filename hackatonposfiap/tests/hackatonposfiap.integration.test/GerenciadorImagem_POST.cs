@@ -1,12 +1,6 @@
 ﻿using hackatonposfiap.domain.Dtos;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http.Json;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace hackatonposfiap.integration.test;
 public class GerenciadorImagem_POST:IClassFixture<HackaWebApplicationFactory>
@@ -17,29 +11,39 @@ public class GerenciadorImagem_POST:IClassFixture<HackaWebApplicationFactory>
     {
         _factory = factory;
     }
-
+ 
     [Fact]
-    public async Task CadastrarGerenciadorImagem_RetornaSucesso()
+    public async Task CriarGerenciadorImagem_RetornaSucesso()
     {
         // Arrange
         var client = _factory.CreateClient();
-        var gerenciadorImagemDto = new GerenciadorImagemDto
+        var gerenciadorImagem = new GerenciadorImagemDto
         {
-            ArquivoZip = "arquivo.zip",
+            ArquivoZip = "ArquivoZip",
             Imagens = new List<GerenciadorImagemItemDto>
             {
                 new GerenciadorImagemItemDto
                 {
-                    CaminhoArquivo = "caminho",
-                    NomeArquivo = "nome"
+                    Id= 1,
+                    CaminhoArquivo = "CaminhoArquivo",
+                    NomeArquivo = "NomeArquivo"
                 }
+            },
+            VideoId = 1,
+            Video = new GerenciadorVideoItemDto
+            {
+                Intervalo = "Intervalo",
+                NomeArquivo = "NomeArquivo",
+                CaminhoVideo = "CaminhoVideo"
+
             }
         };
 
         // Act
-        var response = await client.PostAsJsonAsync("GerenciadorImagem/", gerenciadorImagemDto);
+        var response = await client.PostAsJsonAsync("/GerenciadorImagem", gerenciadorImagem);
 
         // Assert
-        Assert.Equal(HttpStatusCode.OK,response.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
+    
 }

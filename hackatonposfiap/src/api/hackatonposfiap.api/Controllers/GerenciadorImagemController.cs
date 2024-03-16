@@ -7,23 +7,25 @@ namespace hackatonposfiap.api.Controllers;
 [Route("[controller]")]
 public class GerenciadorImagemController : ControllerBase
 {
- 
+   
     [HttpPost]
-    public IActionResult CadastrarGerenciadorImagem([FromBody] GerenciadorImagemDto gerenciadorImagemDto)
+    public IActionResult CadastrarGerenciadorImagem([FromBody] GerenciadorImagemDto dto)
     {
-            var gerenciadorImagem = new GerenciadorImagem
+        var gerenciadorImagem = new GerenciadorImagem
+        {
+
+            ArquivoZip = dto.ArquivoZip,
+            Imagens = dto.Imagens.Select(x => new GerenciadorImagemItem
             {
-                ArquivoZip = gerenciadorImagemDto.ArquivoZip,
-                Imagens = gerenciadorImagemDto.Imagens.Select(x => new GerenciadorImagemItem
-                {
-                    CaminhoArquivo = x.CaminhoArquivo,
-                    NomeArquivo = x.NomeArquivo
-                }).ToList()
-            };
+                CaminhoArquivo = x.CaminhoArquivo,
+                NomeArquivo = x.NomeArquivo
+            }).ToList()
+        };
 
-           return Ok("Dados válidos");
-        }
+        return Ok(gerenciadorImagem);
+    }
 
+ 
 
     [HttpGet]
     public IActionResult ListarGerenciadoresImagem()
