@@ -1,5 +1,7 @@
-﻿namespace hackatonposfiap.domain.Interfaces;
+﻿using hackatonposfiap.domain.Entities;
+
+namespace hackatonposfiap.domain.Interfaces;
 public interface IConsumerRabbitMqService
 {
-    Task Consume();
+    Task<ObjectMessageProcessedInfo> Consume();
 }

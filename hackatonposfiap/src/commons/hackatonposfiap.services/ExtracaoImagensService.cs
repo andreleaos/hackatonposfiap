@@ -14,7 +14,10 @@ public class ExtracaoImagensService : IExtracaoImagensService
     private readonly IConfiguration _configuration;
     private readonly IGerenciadorVideoRepository _gerenciadorRepository;
 
-    public ExtracaoImagensService(IGerenciadorImagemRepository imagemRepository, IConfiguration configuration, IGerenciadorVideoRepository gerenciadorRepository)
+    public ExtracaoImagensService(
+        IConfiguration configuration,
+        IGerenciadorImagemRepository imagemRepository,
+        IGerenciadorVideoRepository gerenciadorRepository)
     {
         _imagemRepository = imagemRepository;
         _configuration = configuration;

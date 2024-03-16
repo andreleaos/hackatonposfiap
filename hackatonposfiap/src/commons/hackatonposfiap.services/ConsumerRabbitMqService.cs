@@ -8,7 +8,7 @@ using RabbitMQ.Client.Events;
 using System.Text;
 
 namespace hackatonposfiap.services;
-public class ConsumerRabbitMqService
+public class ConsumerRabbitMqService : IConsumerRabbitMqService
 {
     private readonly IModel _channel;
     private readonly IExtracaoImagensService _extracaoImagensService;
@@ -28,7 +28,7 @@ public class ConsumerRabbitMqService
         _extracaoImagensService = extracaoImagensService;
     }
 
-    public ObjectMessageProcessedInfo Consume(bool consumeDlq = false)
+    public async Task<ObjectMessageProcessedInfo> Consume()
     {
         EventingBasicConsumer consumer = new EventingBasicConsumer(_channel);
 
