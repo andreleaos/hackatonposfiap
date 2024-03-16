@@ -28,26 +28,29 @@ public class ExtracaoImagensService : IExtracaoImagensService
         var outputFolder = diretorioBase[0];
         string destinationZipFilePath = diretorioBase[1];
 
-  
-           int  videoId = await SaveInfoVideoAsync(gerenciadorVideoDto);
+        destinationZipFilePath = @$"\{gerenciadorVideoDto}.zip";
 
-            Directory.CreateDirectory(outputFolder);
+        int videoId = await SaveInfoVideoAsync(gerenciadorVideoDto);
 
-            var videoInfo = FFProbe.Analyse(gerenciadorVideoDto.CaminhoArquivo);
-            var duration = videoInfo.Duration;
+        Directory.CreateDirectory(outputFolder);
 
-            var interval = TimeSpan.FromSeconds(Convert.ToDouble(gerenciadorVideoDto.Intervalo));
+        var videoInfo = FFProbe.Analyse(gerenciadorVideoDto.CaminhoArquivo);
+        var duration = videoInfo.Duration;
 
-            for (var currentTime = TimeSpan.Zero; currentTime < duration; currentTime += interval)
-            {
-                var outputPath = Path.Combine(outputFolder, $"frame_at_{currentTime.TotalSeconds}.jpg");
-                FFMpeg.Snapshot(gerenciadorVideoDto.CaminhoArquivo, outputPath, new Size(1920, 1080), currentTime);
-            }
+        var interval = TimeSpan.FromSeconds(Convert.ToDouble(gerenciadorVideoDto.Intervalo));
 
-            SaveInfoImages(outputFolder, videoId);
+        for (var currentTime = TimeSpan.Zero; currentTime < duration; currentTime += interval)
+        {
+            var outputPath = Path.Combine(outputFolder, $"frame_at_{currentTime.TotalSeconds}.jpg");
+            FFMpeg.Snapshot(gerenciadorVideoDto.CaminhoArquivo, outputPath, new Size(1920, 1080), currentTime);
+        }
 
-            ZipFile.CreateFromDirectory(outputFolder, destinationZipFilePath);
-        
+        SaveInfoImages(outputFolder, videoId);
+
+        ZipFile.CreateFromDirectory(outputFolder, destinationZipFilePath);
+
+
+
     }
 
     //Mira para service App
@@ -61,9 +64,9 @@ public class ExtracaoImagensService : IExtracaoImagensService
             Intervalo = video.Intervalo,
             DtCriacao = DateTime.Now,
         };
-        var retorno = _gerenciadorRepository.Create(newVideo);        
+        var retorno = _gerenciadorRepository.Create(newVideo);
 
-        var retornoBusca =  await _gerenciadorRepository.GetByName(newVideo.NomeArquivo);
+        var retornoBusca = await _gerenciadorRepository.GetByName(newVideo.NomeArquivo);
 
         return retornoBusca.Id;
     }
@@ -104,4 +107,4 @@ public class ExtracaoImagensService : IExtracaoImagensService
 
         return directorys;
     }
- }
+}
