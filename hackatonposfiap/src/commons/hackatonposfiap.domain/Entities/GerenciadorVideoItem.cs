@@ -6,4 +6,5 @@ public class GerenciadorVideoItem
     public string NomeArquivo { get; set; }
     public string Intervalo { get; set; }
     public DateTime DtCriacao { get; set; }
+    public string Zip { get; set; }
 }
