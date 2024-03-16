@@ -1,9 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using hackatonposfiap.domain.Dtos;
+using hackatonposfiap.domain.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace hackatonposfiap.web.Controllers
 {
     public class GerenciadorController : Controller
     {
+        private readonly IGerenciadorService _gerenciadorService;
+
+        public GerenciadorController(IGerenciadorService gerenciadorService)
+        {
+            _gerenciadorService = gerenciadorService;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -15,10 +24,12 @@ namespace hackatonposfiap.web.Controllers
             return View();
         }
 
-        public IActionResult Gereciador()
+        public async Task<List<GerenciadorImagemDto>> Gereciador()
         {
-            return View();
+            return await _gerenciadorService.GetAll() ;
         }
+
+
 
     }
 }
