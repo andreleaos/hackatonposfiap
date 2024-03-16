@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 
 namespace hackatonposfiap.domain.Dtos;
-public class GerenciadorArquivoItemDto
+public class GerenciadorVideoItemDto
 {
     public string CaminhoVideo { get; set; }
     public string NomeArquivo { get; set; }
