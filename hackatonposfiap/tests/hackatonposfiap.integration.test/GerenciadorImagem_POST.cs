@@ -34,7 +34,7 @@ public class GerenciadorImagem_POST:IClassFixture<HackaWebApplicationFactory>
             {
                 Intervalo = "Intervalo",
                 NomeArquivo = "NomeArquivo",
-                CaminhoVideo = "CaminhoVideo"
+                CaminhoArquivo = "CaminhoVideo"
 
             }
         };
