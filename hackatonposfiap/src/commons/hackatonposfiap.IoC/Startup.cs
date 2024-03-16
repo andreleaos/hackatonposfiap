@@ -18,6 +18,9 @@ public static class Startup
 
         services.AddScoped<IGerenciadorVideoRepository, GerenciadorVideoRepository>();
         services.AddScoped<IGerenciadorImagemRepository, GerenciadorImagemRepository>();
+        services.AddScoped<IExtracaoImagensService, ExtracaoImagensService>();
+        services.AddScoped<IGerenciadorService, GerenciadorService>();
+
     }
 
     private static void ConfigureDatabase(IConfiguration configuration, IServiceCollection services)
@@ -58,5 +61,10 @@ public static class Startup
         {
             return new ConsumerRabbitMqService(configuration, rabbitMqChannel, extracaoImagensService);
         });
+        services.AddSingleton<IProducerRabbitMqService, ProducerRabbitMqService>(sp =>
+        {
+            return new ProducerRabbitMqService(configuration, rabbitMqChannel);
+        });
+
     }
 }
