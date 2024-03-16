@@ -1,2 +1,5 @@
-﻿# criacao de um volume compoartilhado
+﻿# criacao de um volume compartilhado
 docker volume create shared-data
+
+# criacao imagem docker para infra do rabbitmq
+docker build -t andreleaos/rabbitmqsrv:latest .
