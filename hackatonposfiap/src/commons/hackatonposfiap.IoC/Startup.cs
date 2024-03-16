@@ -58,5 +58,11 @@ public static class Startup
         {
             return new ConsumerRabbitMqService(configuration, rabbitMqChannel, extracaoImagensService);
         });
+
+        services.AddSingleton<IProducerRabbitMqService, ProducerRabbitMqService>(sp =>
+        {
+            return new ProducerRabbitMqService(configuration, rabbitMqChannel);
+        });
+
     }
 }
