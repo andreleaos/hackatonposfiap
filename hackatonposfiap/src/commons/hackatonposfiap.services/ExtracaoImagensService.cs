@@ -22,37 +22,37 @@ public class ExtracaoImagensService : IExtracaoImagensService
     }
 
 
-    public Task Processar(GerenciadorVideoDto gerenciadorVideoDto)
+    public Task Processar(GerenciadorVideoItemDto gerenciadorVideoDto)
     {
         var diretorioBase = CriarDiretorioInicial();
         var outputFolder = diretorioBase[0];
         string destinationZipFilePath = diretorioBase[1];
 
-        foreach (GerenciadorVideoItemDto video in gerenciadorVideoDto.Arquivos)
-        {
-           int  videoId = SaveInfoVideo(video);
+  
+           int  videoId = SaveInfoVideo(gerenciadorVideoDto);
 
             Directory.CreateDirectory(outputFolder);
 
-            var videoInfo = FFProbe.Analyse(video.CaminhoArquivo);
+            var videoInfo = FFProbe.Analyse(gerenciadorVideoDto.CaminhoArquivo);
             var duration = videoInfo.Duration;
 
-            var interval = TimeSpan.FromSeconds(Convert.ToDouble(video.Intervalo));
+            var interval = TimeSpan.FromSeconds(Convert.ToDouble(gerenciadorVideoDto.Intervalo));
 
             for (var currentTime = TimeSpan.Zero; currentTime < duration; currentTime += interval)
             {
                 var outputPath = Path.Combine(outputFolder, $"frame_at_{currentTime.TotalSeconds}.jpg");
-                FFMpeg.Snapshot(video.CaminhoArquivo, outputPath, new Size(1920, 1080), currentTime);
+                FFMpeg.Snapshot(gerenciadorVideoDto.CaminhoArquivo, outputPath, new Size(1920, 1080), currentTime);
             }
 
             SaveInfoImages(outputFolder);
 
             ZipFile.CreateFromDirectory(outputFolder, destinationZipFilePath);
-        }
+        
 
         return Task.CompletedTask;
     }
 
+    //Mira para service App
     private int SaveInfoVideo(GerenciadorVideoItemDto video)
     {
         var newVideo = new GerenciadorVideoItem()
