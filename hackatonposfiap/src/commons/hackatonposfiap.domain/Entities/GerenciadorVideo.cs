@@ -1,5 +1,5 @@
 ﻿namespace hackatonposfiap.domain.Entities;
-public class GerenciadorArquivo
+public class GerenciadorVideo
 {
-    public List<GerenciadorArquivoItem> Arquivos { get; set; }
+    public List<GerenciadorVideoItem> Arquivos { get; set; }
 }

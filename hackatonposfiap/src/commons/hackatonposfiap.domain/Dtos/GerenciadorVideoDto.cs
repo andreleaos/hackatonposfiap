@@ -1,5 +1,5 @@
 ﻿namespace hackatonposfiap.domain.Dtos;
-public class GerenciadorArquivoDto
+public class GerenciadorVideoDto
 {
-    public List<GerenciadorArquivoItemDto> Arquivos { get; set; }
+    public List<GerenciadorVideoItemDto> Arquivos { get; set; }
 }
