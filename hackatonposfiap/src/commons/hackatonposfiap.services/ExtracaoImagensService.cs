@@ -12,57 +12,59 @@ public class ExtracaoImagensService : IExtracaoImagensService
 {
     private readonly IGerenciadorImagemRepository _imagemRepository;
     private readonly IConfiguration _configuration;
-    private readonly IGerenciadorVideoService _gerenciadorVideoService;
+    private readonly IGerenciadorVideoRepository _gerenciadorRepository;
 
-    public ExtracaoImagensService(IGerenciadorImagemRepository imagemRepository, IConfiguration configuration, IGerenciadorVideoService gerenciadorVideoService)
+    public ExtracaoImagensService(IGerenciadorImagemRepository imagemRepository, IConfiguration configuration, IGerenciadorVideoRepository gerenciadorRepository)
     {
         _imagemRepository = imagemRepository;
         _configuration = configuration;
-        _gerenciadorVideoService = gerenciadorVideoService;
+        _gerenciadorRepository = gerenciadorRepository;
     }
 
 
-    public Task Processar(GerenciadorVideoDto gerenciadorVideoDto)
+    public Task Processar(GerenciadorVideoItemDto gerenciadorVideoDto)
     {
         var diretorioBase = CriarDiretorioInicial();
         var outputFolder = diretorioBase[0];
         string destinationZipFilePath = diretorioBase[1];
 
-        foreach (GerenciadorVideoItemDto video in gerenciadorVideoDto.Arquivos)
-        {
-            SaveInfoVideo(video);
+  
+           int  videoId = SaveInfoVideo(gerenciadorVideoDto);
 
             Directory.CreateDirectory(outputFolder);
 
-            var videoInfo = FFProbe.Analyse(video.CaminhoArquivo);
+            var videoInfo = FFProbe.Analyse(gerenciadorVideoDto.CaminhoArquivo);
             var duration = videoInfo.Duration;
 
-            var interval = TimeSpan.FromSeconds(Convert.ToDouble(video.Intervalo));
+            var interval = TimeSpan.FromSeconds(Convert.ToDouble(gerenciadorVideoDto.Intervalo));
 
             for (var currentTime = TimeSpan.Zero; currentTime < duration; currentTime += interval)
             {
                 var outputPath = Path.Combine(outputFolder, $"frame_at_{currentTime.TotalSeconds}.jpg");
-                FFMpeg.Snapshot(video.CaminhoArquivo, outputPath, new Size(1920, 1080), currentTime);
+                FFMpeg.Snapshot(gerenciadorVideoDto.CaminhoArquivo, outputPath, new Size(1920, 1080), currentTime);
             }
 
             SaveInfoImages(outputFolder);
 
             ZipFile.CreateFromDirectory(outputFolder, destinationZipFilePath);
-
-        }
+        
 
         return Task.CompletedTask;
     }
 
-    private void SaveInfoVideo(GerenciadorVideoItemDto video)
+    //Mira para service App
+    private int SaveInfoVideo(GerenciadorVideoItemDto video)
     {
         var newVideo = new GerenciadorVideoItem()
         {
+
             CaminhoArquivo = video.CaminhoArquivo,
             NomeArquivo = video.NomeArquivo,
             Intervalo = video.Intervalo
         };
-        _gerenciadorVideoService.Create(newVideo);
+        var retorno = _gerenciadorRepository.Create(newVideo);        
+
+        return _gerenciadorRepository.GetByName(newVideo.NomeArquivo).Id;
     }
 
     private void SaveInfoImages(string outputFolder)
@@ -85,7 +87,7 @@ public class ExtracaoImagensService : IExtracaoImagensService
         string[] directorys = new string[]
             {
             _configuration.GetSection("DiretorioArquivos")["DiretorioBaseImagens"],
-            _configuration.GetSection("DiretorioArquivos")["DiretorioBaseOutPuts"],
+            _configuration.GetSection("DiretorioArquivos")["DiretorioBaseOutPuts"]
         };
 
         foreach (var directory in directorys)
