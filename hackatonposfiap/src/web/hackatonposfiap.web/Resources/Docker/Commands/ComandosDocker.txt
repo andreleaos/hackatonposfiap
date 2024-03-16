@@ -1,0 +1,2 @@
+﻿# criacao de um volume compoartilhado
+docker volume create shared-data
