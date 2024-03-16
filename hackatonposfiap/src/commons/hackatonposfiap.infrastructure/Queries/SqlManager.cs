@@ -29,12 +29,17 @@ namespace hackatonposfiap.infrastructure.Queries
                     break;
 
                 case TSqlQueryType.GET_VIDEO:
+                    sql = "select Id, CaminhoArquivo, NomeArquivo, Intervalo from Video where NomeArquivo = @NomeArquivo;";
+                    break;
+
+                case TSqlQueryType.GET_VIDEO_NAME:
                     sql = "select Id, CaminhoArquivo, NomeArquivo, Intervalo from Video where Id = @Id;";
                     break;
 
                 case TSqlQueryType.GET_PICTURE:
                     sql = "select Id, IdVideo, CaminhoArquivo, NomeArquivo from Imagem where Id = @Id;";
                     break;
+
             }
 
             return sql;

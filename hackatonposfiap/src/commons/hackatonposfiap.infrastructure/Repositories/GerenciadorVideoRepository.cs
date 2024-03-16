@@ -41,6 +41,16 @@ namespace hackatonposfiap.infrastructure.Repositories
             return result;
         }
 
+        public async Task<GerenciadorVideoItem> GetByName(string name)
+        {
+            TSqlQueryType queryType = TSqlQueryType.GET_VIDEO;
+            string sql = SQlManager.GetSql(queryType);
+            sql = ReplaceQueryParameters(queryType, new GerenciadorVideoItem { NomeArquivo = name }, sql);
+            var result = await _dbConnection.QueryFirstOrDefaultAsync<GerenciadorVideoItem>(sql);
+            return result;
+        }
+
+
         private string ReplaceQueryParameters(TSqlQueryType queryType, GerenciadorVideoItem entity, string querySql)
         {
             string sql = querySql;
@@ -55,6 +65,11 @@ namespace hackatonposfiap.infrastructure.Repositories
                     break;
 
                 case TSqlQueryType.GET_VIDEO:
+                    sql = sql
+                        .Replace("@Id", entity.Id.ToString());
+                    break;
+
+                case TSqlQueryType.GET_VIDEO_NAME:
                     sql = sql
                         .Replace("@Id", entity.Id.ToString());
                     break;

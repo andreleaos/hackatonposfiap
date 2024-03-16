@@ -22,14 +22,14 @@ public class ExtracaoImagensService : IExtracaoImagensService
     }
 
 
-    public Task Processar(GerenciadorVideoItemDto gerenciadorVideoDto)
+    public async Task Processar(GerenciadorVideoItemDto gerenciadorVideoDto)
     {
         var diretorioBase = CriarDiretorioInicial();
         var outputFolder = diretorioBase[0];
         string destinationZipFilePath = diretorioBase[1];
 
   
-           int  videoId = SaveInfoVideo(gerenciadorVideoDto);
+           int  videoId = await SaveInfoVideoAsync(gerenciadorVideoDto);
 
             Directory.CreateDirectory(outputFolder);
 
@@ -48,12 +48,10 @@ public class ExtracaoImagensService : IExtracaoImagensService
 
             ZipFile.CreateFromDirectory(outputFolder, destinationZipFilePath);
         
-
-        return Task.CompletedTask;
     }
 
     //Mira para service App
-    private int SaveInfoVideo(GerenciadorVideoItemDto video)
+    private async Task<int> SaveInfoVideoAsync(GerenciadorVideoItemDto video)
     {
         var newVideo = new GerenciadorVideoItem()
         {
@@ -64,7 +62,9 @@ public class ExtracaoImagensService : IExtracaoImagensService
         };
         var retorno = _gerenciadorRepository.Create(newVideo);        
 
-        return _gerenciadorRepository.GetByName(newVideo.NomeArquivo).Id;
+        var retornoBusca =  await _gerenciadorRepository.GetByName(newVideo.NomeArquivo);
+
+        return retornoBusca.Id;
     }
 
     private void SaveInfoImages(string outputFolder)
