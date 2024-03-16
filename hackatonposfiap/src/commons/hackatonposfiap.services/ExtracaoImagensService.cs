@@ -44,7 +44,7 @@ public class ExtracaoImagensService : IExtracaoImagensService
                 FFMpeg.Snapshot(gerenciadorVideoDto.CaminhoArquivo, outputPath, new Size(1920, 1080), currentTime);
             }
 
-            SaveInfoImages(outputFolder);
+            SaveInfoImages(outputFolder, videoId);
 
             ZipFile.CreateFromDirectory(outputFolder, destinationZipFilePath);
         
@@ -58,7 +58,8 @@ public class ExtracaoImagensService : IExtracaoImagensService
 
             CaminhoArquivo = video.CaminhoArquivo,
             NomeArquivo = video.NomeArquivo,
-            Intervalo = video.Intervalo
+            Intervalo = video.Intervalo,
+            DtCriacao = DateTime.Now,
         };
         var retorno = _gerenciadorRepository.Create(newVideo);        
 
@@ -67,7 +68,7 @@ public class ExtracaoImagensService : IExtracaoImagensService
         return retornoBusca.Id;
     }
 
-    private void SaveInfoImages(string outputFolder)
+    private void SaveInfoImages(string outputFolder, int videoId)
     {
         var listaImagens = Directory.GetFiles(outputFolder);
 
@@ -77,6 +78,8 @@ public class ExtracaoImagensService : IExtracaoImagensService
 
             imagemItem.CaminhoArquivo = outputFolder + @$"/{imagemItem}";
             imagemItem.NomeArquivo = imagem;
+            imagemItem.IdVideo = videoId;
+            imagemItem.DtCriacao = DateTime.Now;
 
             _imagemRepository.Create(imagemItem);
         }
