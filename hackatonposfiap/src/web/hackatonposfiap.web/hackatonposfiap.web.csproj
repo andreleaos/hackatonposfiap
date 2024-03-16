@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Resources\Arquitetura\" />
     <Folder Include="Resources\Docker\Imagens\" />
   </ItemGroup>
 
