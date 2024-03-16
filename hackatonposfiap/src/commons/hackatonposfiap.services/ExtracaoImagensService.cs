@@ -1,29 +1,104 @@
-﻿using hackatonposfiap.domain.Dtos;
+﻿using FFMpegCore;
+using hackatonposfiap.domain.Dtos;
+using hackatonposfiap.domain.Entities;
 using hackatonposfiap.domain.Interfaces;
+using System.Drawing;
+using System.IO.Compression;
+using System.Linq;
 using Microsoft.Extensions.Configuration;
 
 namespace hackatonposfiap.services;
 public class ExtracaoImagensService : IExtracaoImagensService
 {
+    private readonly IGerenciadorImagemRepository _imagemRepository;
     private readonly IConfiguration _configuration;
-    public ExtracaoImagensService(IConfiguration configuration)
+    private readonly IGerenciadorVideoRepository _gerenciadorRepository;
+
+    public ExtracaoImagensService(IGerenciadorImagemRepository imagemRepository, IConfiguration configuration, IGerenciadorVideoRepository gerenciadorRepository)
     {
+        _imagemRepository = imagemRepository;
         _configuration = configuration;
+        _gerenciadorRepository = gerenciadorRepository;
     }
 
-    public async Task Processar(GerenciadorVideoDto gerenciadorVideoDto)
+
+    public Task Processar(GerenciadorVideoItemDto gerenciadorVideoDto)
     {
         var diretorioBase = CriarDiretorioInicial();
+        var outputFolder = diretorioBase[0];
+        string destinationZipFilePath = diretorioBase[1];
+
+  
+           int  videoId = SaveInfoVideo(gerenciadorVideoDto);
+
+            Directory.CreateDirectory(outputFolder);
+
+            var videoInfo = FFProbe.Analyse(gerenciadorVideoDto.CaminhoArquivo);
+            var duration = videoInfo.Duration;
+
+            var interval = TimeSpan.FromSeconds(Convert.ToDouble(gerenciadorVideoDto.Intervalo));
+
+            for (var currentTime = TimeSpan.Zero; currentTime < duration; currentTime += interval)
+            {
+                var outputPath = Path.Combine(outputFolder, $"frame_at_{currentTime.TotalSeconds}.jpg");
+                FFMpeg.Snapshot(gerenciadorVideoDto.CaminhoArquivo, outputPath, new Size(1920, 1080), currentTime);
+            }
+
+            SaveInfoImages(outputFolder);
+
+            ZipFile.CreateFromDirectory(outputFolder, destinationZipFilePath);
+        
+
+        return Task.CompletedTask;
     }
 
-    private string CriarDiretorioInicial()
+    //Mira para service App
+    private int SaveInfoVideo(GerenciadorVideoItemDto video)
     {
-        string directory = _configuration.GetSection("DiretorioArquivos")["DiretorioBaseImagens"];
-        bool existsDirectory = Directory.Exists(directory);
+        var newVideo = new GerenciadorVideoItem()
+        {
 
-        if (!existsDirectory)
-            Directory.CreateDirectory(directory);
+            CaminhoArquivo = video.CaminhoArquivo,
+            NomeArquivo = video.NomeArquivo,
+            Intervalo = video.Intervalo
+        };
+        var retorno = _gerenciadorRepository.Create(newVideo);        
 
-        return directory;
+        return _gerenciadorRepository.GetByName(newVideo.NomeArquivo).Id;
     }
-}
+
+    private void SaveInfoImages(string outputFolder)
+    {
+        var listaImagens = Directory.GetFiles(outputFolder);
+
+        foreach (var imagem in listaImagens)
+        {
+            var imagemItem = new GerenciadorImagemItem();
+
+            imagemItem.CaminhoArquivo = outputFolder + @$"/{imagemItem}";
+            imagemItem.NomeArquivo = imagem;
+
+            _imagemRepository.Create(imagemItem);
+        }
+    }
+
+    private string[] CriarDiretorioInicial()
+    {
+        string[] directorys = new string[]
+            {
+            _configuration.GetSection("DiretorioArquivos")["DiretorioBaseImagens"],
+            _configuration.GetSection("DiretorioArquivos")["DiretorioBaseOutPuts"]
+        };
+
+        foreach (var directory in directorys)
+        {
+
+            if (Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+        }
+
+        return directorys;
+    }
+ }
