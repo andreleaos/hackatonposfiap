@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using hackatonposfiap.domain.Dtos;
+using hackatonposfiap.domain.Interfaces;
 
-namespace hackatonposfiap.services
+namespace hackatonposfiap.services;
+public class ExtracaoImagensService : IExtracaoImagensService
 {
-    internal class ExtracaoImagensService
+    public async Task Processar(GerenciadorVideoDto gerenciadorVideoDto)
     {
+        throw new NotImplementedException();
     }
 }
