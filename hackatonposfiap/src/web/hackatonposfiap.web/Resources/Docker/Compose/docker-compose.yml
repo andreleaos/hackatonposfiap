@@ -1,0 +1,8 @@
+﻿version: '3.8'
+services:
+  worker-producer-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./diretorio_local:/app/diretorio_dentro_do_container
