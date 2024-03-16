@@ -3,6 +3,9 @@
 FROM mcr.microsoft.com/dotnet/runtime:6.0 AS base
 WORKDIR /app
 
+# Copie o arquivo de publicação da sua aplicação para o contêiner
+COPY /publish .
+
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["src/queue/hackatonposfiap.producer/hackatonposfiap.producer.csproj", "src/queue/hackatonposfiap.producer/"]
