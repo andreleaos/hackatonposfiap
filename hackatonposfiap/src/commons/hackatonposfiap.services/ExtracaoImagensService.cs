@@ -14,7 +14,10 @@ public class ExtracaoImagensService : IExtracaoImagensService
     private readonly IConfiguration _configuration;
     private readonly IGerenciadorVideoRepository _gerenciadorRepository;
 
-    public ExtracaoImagensService(IGerenciadorImagemRepository imagemRepository, IConfiguration configuration, IGerenciadorVideoRepository gerenciadorRepository)
+    public ExtracaoImagensService(
+        IConfiguration configuration,
+        IGerenciadorImagemRepository imagemRepository,
+        IGerenciadorVideoRepository gerenciadorRepository)
     {
         _imagemRepository = imagemRepository;
         _configuration = configuration;
@@ -22,14 +25,14 @@ public class ExtracaoImagensService : IExtracaoImagensService
     }
 
 
-    public Task Processar(GerenciadorVideoItemDto gerenciadorVideoDto)
+    public async Task Processar(GerenciadorVideoItemDto gerenciadorVideoDto)
     {
         var diretorioBase = CriarDiretorioInicial();
         var outputFolder = diretorioBase[0];
         string destinationZipFilePath = diretorioBase[1];
 
   
-           int  videoId = SaveInfoVideo(gerenciadorVideoDto);
+           int  videoId = await SaveInfoVideoAsync(gerenciadorVideoDto);
 
             Directory.CreateDirectory(outputFolder);
 
@@ -44,30 +47,31 @@ public class ExtracaoImagensService : IExtracaoImagensService
                 FFMpeg.Snapshot(gerenciadorVideoDto.CaminhoArquivo, outputPath, new Size(1920, 1080), currentTime);
             }
 
-            SaveInfoImages(outputFolder);
+            SaveInfoImages(outputFolder, videoId);
 
             ZipFile.CreateFromDirectory(outputFolder, destinationZipFilePath);
         
-
-        return Task.CompletedTask;
     }
 
     //Mira para service App
-    private int SaveInfoVideo(GerenciadorVideoItemDto video)
+    private async Task<int> SaveInfoVideoAsync(GerenciadorVideoItemDto video)
     {
         var newVideo = new GerenciadorVideoItem()
         {
 
             CaminhoArquivo = video.CaminhoArquivo,
             NomeArquivo = video.NomeArquivo,
-            Intervalo = video.Intervalo
+            Intervalo = video.Intervalo,
+            DtCriacao = DateTime.Now,
         };
         var retorno = _gerenciadorRepository.Create(newVideo);        
 
-        return _gerenciadorRepository.GetByName(newVideo.NomeArquivo).Id;
+        var retornoBusca =  await _gerenciadorRepository.GetByName(newVideo.NomeArquivo);
+
+        return retornoBusca.Id;
     }
 
-    private void SaveInfoImages(string outputFolder)
+    private void SaveInfoImages(string outputFolder, int videoId)
     {
         var listaImagens = Directory.GetFiles(outputFolder);
 
@@ -77,6 +81,8 @@ public class ExtracaoImagensService : IExtracaoImagensService
 
             imagemItem.CaminhoArquivo = outputFolder + @$"/{imagemItem}";
             imagemItem.NomeArquivo = imagem;
+            imagemItem.IdVideo = videoId;
+            imagemItem.DtCriacao = DateTime.Now;
 
             _imagemRepository.Create(imagemItem);
         }

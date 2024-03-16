@@ -8,5 +8,6 @@
         GET_VIDEO,
         LIST_PICTURES,
         GET_PICTURE,
+        GET_VIDEO_NAME
     }
 }
