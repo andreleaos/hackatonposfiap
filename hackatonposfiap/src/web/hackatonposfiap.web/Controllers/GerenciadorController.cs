@@ -8,5 +8,11 @@ namespace hackatonposfiap.web.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public IActionResult Process()
+        {
+            return View();
+        }
     }
 }
