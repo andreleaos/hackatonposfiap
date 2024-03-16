@@ -37,6 +37,12 @@ services:
     depends_on:
       - mysqldb	
 
+  rabbitmqsrv:
+    image: andreleaos/rabbitmqsrv:latest
+    container_name: rabbitmqsrv
+    networks:
+      - compose-bridge
+
   worker-producer-service:
     build:
       context: .
