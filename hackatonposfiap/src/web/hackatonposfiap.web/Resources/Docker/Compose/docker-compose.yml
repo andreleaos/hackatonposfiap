@@ -29,6 +29,14 @@ services:
     depends_on:
       - hackwebapi	
 
+  hackrabbitmqconsumer:
+    image: andreleaos/hackrabbitmqconsumer:latest
+    container_name: hackrabbitmqconsumer
+    networks:
+      - compose-bridge
+    depends_on:
+      - mysqldb	
+
   worker-producer-service:
     build:
       context: .
