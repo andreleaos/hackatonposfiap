@@ -12,13 +12,13 @@ public class ExtracaoImagensService : IExtracaoImagensService
 {
     private readonly IGerenciadorImagemRepository _imagemRepository;
     private readonly IConfiguration _configuration;
-    private readonly IGerenciadorVideoService _gerenciadorVideoService;
+    private readonly IGerenciadorVideoRepository _gerenciadorRepository;
 
-    public ExtracaoImagensService(IGerenciadorImagemRepository imagemRepository, IConfiguration configuration, IGerenciadorVideoService gerenciadorVideoService)
+    public ExtracaoImagensService(IGerenciadorImagemRepository imagemRepository, IConfiguration configuration, IGerenciadorVideoRepository gerenciadorRepository)
     {
         _imagemRepository = imagemRepository;
         _configuration = configuration;
-        _gerenciadorVideoService = gerenciadorVideoService;
+        _gerenciadorRepository = gerenciadorRepository;
     }
 
 
@@ -30,7 +30,7 @@ public class ExtracaoImagensService : IExtracaoImagensService
 
         foreach (GerenciadorVideoItemDto video in gerenciadorVideoDto.Arquivos)
         {
-            SaveInfoVideo(video);
+           int  videoId = SaveInfoVideo(video);
 
             Directory.CreateDirectory(outputFolder);
 
@@ -48,21 +48,23 @@ public class ExtracaoImagensService : IExtracaoImagensService
             SaveInfoImages(outputFolder);
 
             ZipFile.CreateFromDirectory(outputFolder, destinationZipFilePath);
-
         }
 
         return Task.CompletedTask;
     }
 
-    private void SaveInfoVideo(GerenciadorVideoItemDto video)
+    private int SaveInfoVideo(GerenciadorVideoItemDto video)
     {
         var newVideo = new GerenciadorVideoItem()
         {
+
             CaminhoArquivo = video.CaminhoArquivo,
             NomeArquivo = video.NomeArquivo,
             Intervalo = video.Intervalo
         };
-        _gerenciadorVideoService.Create(newVideo);
+        var retorno = _gerenciadorRepository.Create(newVideo);        
+
+        return _gerenciadorRepository.GetByName(newVideo.NomeArquivo).Id;
     }
 
     private void SaveInfoImages(string outputFolder)
@@ -85,7 +87,7 @@ public class ExtracaoImagensService : IExtracaoImagensService
         string[] directorys = new string[]
             {
             _configuration.GetSection("DiretorioArquivos")["DiretorioBaseImagens"],
-            _configuration.GetSection("DiretorioArquivos")["DiretorioBaseOutPuts"],
+            _configuration.GetSection("DiretorioArquivos")["DiretorioBaseOutPuts"]
         };
 
         foreach (var directory in directorys)
