@@ -15,7 +15,7 @@ namespace hackatonposfiap.web.Controllers
             return View();
         }
 
-        public IActionResult ListarVideos()
+        public IActionResult Gereciador()
         {
             return View();
         }
