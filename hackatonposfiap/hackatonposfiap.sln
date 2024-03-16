@@ -3,25 +3,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34031.279
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hackatonposfiap.api", "src\api\hackatonposfiap.api\hackatonposfiap.api.csproj", "{3319D37D-1763-4E04-A5F0-6182D2B78F93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hackatonposfiap.api", "src\api\hackatonposfiap.api\hackatonposfiap.api.csproj", "{3319D37D-1763-4E04-A5F0-6182D2B78F93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hackatonposfiap.web", "src\web\hackatonposfiap.web\hackatonposfiap.web.csproj", "{989CE208-41E9-47F1-9647-D06E9572F0D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hackatonposfiap.web", "src\web\hackatonposfiap.web\hackatonposfiap.web.csproj", "{989CE208-41E9-47F1-9647-D06E9572F0D3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "commons", "commons", "{0AEA7289-C865-44D3-9C80-BAB18AB86FE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hackatonposfiap.domain", "src\commons\hackatonposfiap.domain\hackatonposfiap.domain.csproj", "{E13941F8-E66E-4FB5-99FF-6680EC3E2D31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hackatonposfiap.domain", "src\commons\hackatonposfiap.domain\hackatonposfiap.domain.csproj", "{E13941F8-E66E-4FB5-99FF-6680EC3E2D31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hackatonposfiap.infrastructure", "src\commons\hackatonposfiap.infrastructure\hackatonposfiap.infrastructure.csproj", "{F848B35D-DE5C-4A20-BEC2-2383A660B3BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hackatonposfiap.infrastructure", "src\commons\hackatonposfiap.infrastructure\hackatonposfiap.infrastructure.csproj", "{F848B35D-DE5C-4A20-BEC2-2383A660B3BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hackatonposfiap.services", "src\commons\hackatonposfiap.services\hackatonposfiap.services.csproj", "{CA2F6ECC-1C8A-4782-88E4-780A81304A21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hackatonposfiap.services", "src\commons\hackatonposfiap.services\hackatonposfiap.services.csproj", "{CA2F6ECC-1C8A-4782-88E4-780A81304A21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hackatonposfiap.IoC", "src\commons\hackatonposfiap.IoC\hackatonposfiap.IoC.csproj", "{4E10928E-8BC4-4D52-AA75-9F113DBC3764}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hackatonposfiap.IoC", "src\commons\hackatonposfiap.IoC\hackatonposfiap.IoC.csproj", "{4E10928E-8BC4-4D52-AA75-9F113DBC3764}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "queue", "queue", "{08490963-1436-410D-BA6F-33F44482A948}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hackatonposfiap.consumer", "src\queue\hackatonposfiap.consumer\hackatonposfiap.consumer.csproj", "{F6FADCF9-A2A4-4964-9D69-5E3ECD0CF605}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hackatonposfiap.consumer", "src\queue\hackatonposfiap.consumer\hackatonposfiap.consumer.csproj", "{F6FADCF9-A2A4-4964-9D69-5E3ECD0CF605}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hackatonposfiap.producer", "src\queue\hackatonposfiap.producer\hackatonposfiap.producer.csproj", "{3658CCD6-ACF7-4637-BA66-F2A922824E8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "hackatonposfiap.producer", "src\queue\hackatonposfiap.producer\hackatonposfiap.producer.csproj", "{3658CCD6-ACF7-4637-BA66-F2A922824E8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hackatonposfiap.unit.test", "tests\hackatonposfiap.Unit.Test\hackatonposfiap.unit.test.csproj", "{FBDC5D04-0441-4D3F-8B91-2A60955B53A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{3658CCD6-ACF7-4637-BA66-F2A922824E8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3658CCD6-ACF7-4637-BA66-F2A922824E8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3658CCD6-ACF7-4637-BA66-F2A922824E8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBDC5D04-0441-4D3F-8B91-2A60955B53A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBDC5D04-0441-4D3F-8B91-2A60955B53A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBDC5D04-0441-4D3F-8B91-2A60955B53A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBDC5D04-0441-4D3F-8B91-2A60955B53A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
