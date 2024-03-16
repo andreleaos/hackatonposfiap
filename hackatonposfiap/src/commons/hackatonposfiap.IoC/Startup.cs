@@ -10,9 +10,11 @@ using hackatonposfiap.services;
 namespace hackatonposfiap.IoC;
 public static class Startup
 {
-    public static void Configure(IConfiguration configuration, IServiceCollection services)
+    public static void Configure(IConfiguration configuration, IServiceCollection services, bool enableRabbitMq = false)
     {
         ConfigureDatabase(configuration, services);
+        if (enableRabbitMq)
+            ConfigureRabbitMq(configuration, services);
 
         services.AddScoped<IGerenciadorVideoRepository, GerenciadorVideoRepository>();
         services.AddScoped<IGerenciadorImagemRepository, GerenciadorImagemRepository>();
@@ -21,7 +23,6 @@ public static class Startup
     private static void ConfigureDatabase(IConfiguration configuration, IServiceCollection services)
     {
         string connStrMySql = configuration.GetConnectionString("ConnStr_MySql");
-
         services.AddScoped<IDbConnection>(provider => new MySqlConnection(connStrMySql));
     }
 

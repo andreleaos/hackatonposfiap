@@ -16,7 +16,7 @@ namespace hackatonposfiap.consumer
                 {
                     services.AddSingleton(configuration);
                     services.AddHostedService<Worker>();
-                    // Startup.Configure(configuration, services, enableSwagger: false, enableRabbitMq: true);
+                    Startup.Configure(configuration, services, enableRabbitMq: true);
                 })
                 .Build();
 
