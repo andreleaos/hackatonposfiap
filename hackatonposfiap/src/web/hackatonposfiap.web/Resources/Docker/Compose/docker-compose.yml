@@ -1,8 +1,43 @@
-﻿version: '3.8'
+﻿version: '3.9'
 services:
+
+  mysqldb:
+    image: andreleaos/mysqldb:latest
+    container_name: mysqldb
+    networks:
+      - compose-bridge
+    ports:
+      - 3308:3306
+
+  hackwebapi:
+    image: andreleaos/hackwebapi:latest
+    container_name: hackwebapi
+    networks:
+      - compose-bridge
+    ports:
+      - 8082:80
+    depends_on:
+      - mysqldb	
+
+  hackwebmvc:
+    image: andreleaos/hackwebmvc:latest
+    container_name: hackwebmvc
+    networks:
+      - compose-bridge
+    ports:
+      - 8086:80
+    depends_on:
+      - hackwebapi	
+
   worker-producer-service:
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
       - ./diretorio_local:/app/diretorio_dentro_do_container
+
+
+networks:
+  compose-bridge:
+    driver: bridge
+

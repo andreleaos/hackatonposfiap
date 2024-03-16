@@ -3,3 +3,17 @@ docker volume create shared-data
 
 # criacao imagem docker para infra do rabbitmq
 docker build -t andreleaos/rabbitmqsrv:latest .
+
+# criacao imagem docker para infra do mysql
+docker build -t andreleaos/mysqldb:latest .
+
+# criacao imagem docker para web api
+docker build -t andreleaos/hackwebapi:latest .
+
+# criacao imagem docker para web mvc
+docker build -t andreleaos/hackwebmvc:latest .
+
+# criacao imagem docker para consumer
+docker build -t andreleaos/hackrabbitmqconsumer:latest .
+
+
