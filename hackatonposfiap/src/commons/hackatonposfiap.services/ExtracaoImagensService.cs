@@ -16,6 +16,11 @@ public class ExtracaoImagensService : IExtracaoImagensService
         var diretorioBase = CriarDiretorioInicial();
     }
 
+    public Task Processar(GerenciadorVideoItemDto gerenciadorVideoDto)
+    {
+        throw new NotImplementedException();
+    }
+
     private string CriarDiretorioInicial()
     {
         string directory = _configuration.GetSection("DiretorioArquivos")["DiretorioBaseImagens"];

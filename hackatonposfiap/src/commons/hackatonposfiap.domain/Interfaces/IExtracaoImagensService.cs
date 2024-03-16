@@ -3,5 +3,5 @@
 namespace hackatonposfiap.domain.Interfaces;
 public interface IExtracaoImagensService
 {
-    Task Processar(GerenciadorVideoDto gerenciadorVideoDto);
+    Task Processar(GerenciadorVideoItemDto gerenciadorVideoDto);
 }
