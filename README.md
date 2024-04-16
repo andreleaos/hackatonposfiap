@@ -50,8 +50,8 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 ## ✒️ Colaborador(as/es)
 
-- **Fernando Augusto Ribeiro Alves** - _Desenvolvedor_  - [Faralves](https://github.com/faralves)
-- **André Leão da Silva** - _Desenvolvedor_ - [andreleaos](https://github.com/andreleaos)
 - **André Bessa da Silva** - _Desenvolvedor_  - [bessax](https://github.com/bessax)
+- **André Leão da Silva** - _Desenvolvedor_ - [andreleaos](https://github.com/andreleaos)
+- **Fernando Augusto Ribeiro Alves** - _Desenvolvedor_  - [Faralves](https://github.com/faralves)
 - **Liandro Freire dos Anjos** - _Desenvolvedor_  - [liandro](oliverliandro@gmail.com)
 
